@@ -1,0 +1,5 @@
+// migration for properties
+php artisan make:migration create_properties_table --create=properties
+
+//make Property
+php artisan make:model Property -m
