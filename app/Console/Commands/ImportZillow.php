@@ -80,6 +80,7 @@ class ImportZillow extends Command
 
 
             // Map All  Data
+            // dd($addressJson['address']);
             $data['address'] = $addressJson['address']['streetAddress'] ?? '';
             $data['city'] = $addressJson['address']['addressLocality'] ?? '';
             $data['state'] = $addressJson['address']['addressRegion'] ?? '';
@@ -95,7 +96,6 @@ class ImportZillow extends Command
             // $data['parcel_id'] = '';
 
             // price 
-
             //$eventJson['offers']['price']   Trying to access array offset on value of type null 
             if (is_array($eventJson) && isset($eventJson['offers']) && is_array($eventJson['offers']) && isset($eventJson['offers']['price'])) {
               $data['price'] = str_replace(['$', ','], '', $eventJson['offers']['price']);
@@ -107,19 +107,12 @@ class ImportZillow extends Command
             }
 
             //area
-            $data['area'] = $addressJson['floorSize']['value'] ?? '';
-
-            // bed / bath
-            $data['bedrooms'] = $row[7] ?? '';
-            $data['bathrooms'] = $row[9] ?? '';
+            $data['area'] =  str_replace(',', '', $addressJson['floorSize']['value'] ?? '');
 
             //source
             $data['source'] = 'zillow';
 
-
-
-            // dd($data);
-
+            // dd($data); 
 
             Property::updateOrCreate(
               [
